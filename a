@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Moja muzička stranica</title>
+  </head>
+  <body>
+    <h1>Moja muzička stranica</h1>
+
+    <audio id="myAudio" src="./musica/Clandestine - Cocaina (remix).mp3"></audio>
+
+    <button id="playButton">Play</button>
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+
+    <script>
+      const audio = document.getElementById('myAudio');
+      const playButton = document.getElementById('playButton');
+      const volumeSlider = document.getElementById('volumeSlider');
+      const songs = ['./musica/Clandestine - Cocaina (remix).mp3', './musica/Rema Selena Gomez, Calm Down (Lyrics).mp3', './musica/Ed Sheeran, Shape Of You...Mix.mp3'];
+      let currentSongIndex = 0;
+
+      function playSong(index) {
+        audio.src = songs[index];
+        audio.play();
+        playButton.textContent = 'Pause';
+      }
+
+      playButton.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play();
+          playButton.textContent = 'Pause';
+        } else {
+          audio.pause();
+          playButton.textContent = 'Play';
+        }
+      });
+
+      volumeSlider.addEventListener('input', () => {
+        audio.volume = volumeSlider.value / 100;
+      });
+
+      audio.addEventListener('ended', () => {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+        playSong(currentSongIndex);
+      });
+
+      playSong(currentSongIndex);
+    </script>
+  </body>
+</html>
